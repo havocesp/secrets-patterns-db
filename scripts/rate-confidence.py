@@ -17,6 +17,7 @@ from hashlib import md5
 from pathlib import Path
 from contextlib import suppress
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor, as_completed
+from security import safe_command
 
 # how many of the top websites to visit
 num_websites = 2000
@@ -76,7 +77,7 @@ websites_dir.mkdir(exist_ok=True)
 def get_webpage(url):
     command = ["wget", "-q", "--convert-links", "--adjust-extension", "--page-requisites", "--no-parent", "--header=User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36", url]
     with suppress(subprocess.TimeoutExpired):
-        subprocess.run(command, cwd=websites_dir, timeout=10)
+        safe_command.run(subprocess.run, command, cwd=websites_dir, timeout=10)
 
 # with ThreadPoolExecutor(max_workers=25) as e:
 #     for domain in top_domains[:num_websites]:
