@@ -10,13 +10,13 @@
 import re
 import sys
 import yaml
-import random
 import subprocess
 from math import ceil
 from hashlib import md5
 from pathlib import Path
 from contextlib import suppress
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor, as_completed
+import secrets
 
 # how many of the top websites to visit
 num_websites = 2000
@@ -94,7 +94,7 @@ files = list(file_hashes.values())
 files_after = len(files)
 errprint(f"Deduplicated {files_before:,} --> {files_after:,}")
 # shuffle
-random.shuffle(files)
+secrets.SystemRandom().shuffle(files)
 if not files:
     errprint(f"No websites loaded")
     exit(1)
